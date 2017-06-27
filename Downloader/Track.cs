@@ -1,7 +1,10 @@
-﻿namespace Downloader
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Downloader
 {
-	class Track
+	internal class Track
 	{
+		[Key]
 		public string Guid { get; set; }
 		public string Url { get; set; }
 	}

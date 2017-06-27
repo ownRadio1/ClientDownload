@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Downloader
 {
-	class OwnRadio
+	internal class OwnRadio
 	{
 		private readonly HttpClient _client;
 		private readonly string _deviceId;
@@ -14,7 +15,7 @@ namespace Downloader
 			_deviceId = deviceId;
 		}
 		
-		public async void Upload(Track track, byte[] audio)
+		public async Task<bool> Upload(Track track, byte[] audio)
 		{
 			var form = new MultipartFormDataContent {
 				{ new StringContent(track.Guid), "fileGuid" },
@@ -23,9 +24,10 @@ namespace Downloader
 				{ new ByteArrayContent(audio, 0, audio.Count()), "musicFile", $"{track.Guid}.mp3" }
 			};
 
-			var response = await _client.PostAsync($"http://api.ownradio.ru/v3/tracks", form);
-			
-			response.EnsureSuccessStatusCode();
+			using (var response = await _client.PostAsync($"http://api.ownradio.ru/v3/tracks", form).ConfigureAwait(false))
+			{
+				return response.IsSuccessStatusCode;
+			}
 		}
 	}
 }
