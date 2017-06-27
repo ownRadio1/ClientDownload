@@ -1,51 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Downloader
 {
 	public partial class Downloader : Form
 	{
-		private readonly OwnRadio _ownRadio = new OwnRadio(Properties.Settings.Default.DeviceId);
+		private DownloadEngine _engine;
 
 		public Downloader()
 		{
 			InitializeComponent();
+
+			_engine = new DownloadEngine(new ZaycevService("new"), 500, 1000*60*60);
+		}
+		
+		private async void btnStart_Click(object sender, EventArgs e)
+		{
+			tbConsole.Text = @"ВРУЧНУЮ: Начало загрузки" + Environment.NewLine + tbConsole.Text;
+
+			btnStart.Enabled = false;
+			cbSource.Enabled = false;
+
+			_engine.Amount = Convert.ToInt32(numericUpDown1.Value);
+
+			var progress = new Progress<int>(val => progressBar1.Value = val);
+			var log = new Progress<string>(message => tbConsole.Text = message + Environment.NewLine + tbConsole.Text);
+			
+			await _engine.Download(progress, log);
+
+			btnStart.Enabled = true;
+			cbSource.Enabled = true;
 		}
 
-		private async void btnLoad_Click(object sender, EventArgs e)
+		private async void timerDownload_Tick(object sender, EventArgs e)
 		{
-			var service = new ZaycevService();
-			var page = Convert.ToInt32(numericUpDown1.Value);
+			tbConsole.Text = @"ТАЙМЕР: Начало загрузки" + Environment.NewLine + tbConsole.Text;
 
-			var tracks = await service.GetTracks(page);
+			btnStart.Enabled = false;
+			cbSource.Enabled = false;
+			timerDownload.Stop();
 
-			foreach (var track in tracks)
+			_engine.Amount = Convert.ToInt32(numericUpDown1.Value);
+
+			var progress = new Progress<int>(val => progressBar1.Value = val);
+			var log = new Progress<string>(message => tbConsole.Text = message + Environment.NewLine + tbConsole.Text);
+
+			await _engine.Download(progress, log);
+
+			btnStart.Enabled = true;
+			cbSource.Enabled = true;
+			timerDownload.Start();
+		}
+
+		private void btnTimer_Click(object sender, EventArgs e)
+		{
+			if (!timerDownload.Enabled)
 			{
-				var audio = await service.GetTrack(track.Url);
-
-				// Save tracks to local disk
-				/* 
-				FileStream fileStream = File.Create($"E:\\Music\\Zaycev\\{track.Guid}.mp3");
-				fileStream.Write(audio, 0, audio.Length);
-				*/
-
-				_ownRadio.Upload(track, audio);
-				tbConsole.Text += $"{track.Guid}.mp3 - Загружено" + Environment.NewLine;
-				progressBar1.Value += 2;
+				btnTimer.Text = @"Остановить таймер";
+				timerDownload.Start();
 			}
+			else
+			{
+				btnTimer.Text = @"Запустить таймер";
+				timerDownload.Stop();
+			}
+		}
 
-			progressBar1.Value = 100;
-			MessageBox.Show("Треки загружены!");
+		private void cbSource_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if(cbSource.SelectedIndex == 0)
+			{
+				_engine = new DownloadEngine(new ZaycevService("new"), 500, 1000 * 60 * 60);
+				label3.Text = @"Сервис: http://zaycev.net/new/index.html";
+			}
+			else if(cbSource.SelectedIndex == 1)
+			{
+				_engine = new DownloadEngine(new ZaycevService("top"), 500, 1000 * 60 * 60);
+				label3.Text = @"Сервис: http://zaycev.net/";
+
+			}
 		}
 	}
 }
