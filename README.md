@@ -3,7 +3,8 @@
 Ссылка для скачивания
 http://install.ownradio.ru/downloader/
 
-Приложение позволяет автоматически загружать треки с http://zaycev.net на http://api.ownradio.ru/v4/tracks
+Приложение позволяет автоматически загружать треки с http://zaycev.net на http://api.ownradio.ru/v4/tracks .
+
 Треки загружаются на сервер под deviceId = "11111111-0000-0029-0000-000000000000"
 
 Поддерживает 2 режима:
