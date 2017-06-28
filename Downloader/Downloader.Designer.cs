@@ -44,18 +44,18 @@
 			// 
 			// tbConsole
 			// 
-			this.tbConsole.Location = new System.Drawing.Point(12, 99);
+			this.tbConsole.Location = new System.Drawing.Point(12, 151);
 			this.tbConsole.Multiline = true;
 			this.tbConsole.Name = "tbConsole";
 			this.tbConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.tbConsole.Size = new System.Drawing.Size(422, 350);
+			this.tbConsole.Size = new System.Drawing.Size(461, 370);
 			this.tbConsole.TabIndex = 2;
 			// 
 			// progressBar1
 			// 
-			this.progressBar1.Location = new System.Drawing.Point(12, 70);
+			this.progressBar1.Location = new System.Drawing.Point(12, 112);
 			this.progressBar1.Name = "progressBar1";
-			this.progressBar1.Size = new System.Drawing.Size(422, 23);
+			this.progressBar1.Size = new System.Drawing.Size(461, 23);
 			this.progressBar1.TabIndex = 3;
 			// 
 			// numericUpDown1
@@ -65,14 +65,14 @@
             0,
             0,
             0});
-			this.numericUpDown1.Location = new System.Drawing.Point(195, 15);
+			this.numericUpDown1.Location = new System.Drawing.Point(243, 45);
 			this.numericUpDown1.Maximum = new decimal(new int[] {
             500,
             0,
             0,
             0});
 			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(239, 20);
+			this.numericUpDown1.Size = new System.Drawing.Size(129, 20);
 			this.numericUpDown1.TabIndex = 4;
 			this.numericUpDown1.Value = new decimal(new int[] {
             50,
@@ -83,7 +83,7 @@
 			// label1
 			// 
 			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(9, 17);
+			this.label1.Location = new System.Drawing.Point(12, 47);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(177, 13);
 			this.label1.TabIndex = 5;
@@ -91,9 +91,9 @@
 			// 
 			// btnStart
 			// 
-			this.btnStart.Location = new System.Drawing.Point(12, 41);
+			this.btnStart.Location = new System.Drawing.Point(12, 74);
 			this.btnStart.Name = "btnStart";
-			this.btnStart.Size = new System.Drawing.Size(209, 23);
+			this.btnStart.Size = new System.Drawing.Size(177, 23);
 			this.btnStart.TabIndex = 6;
 			this.btnStart.Text = "Загрузить вручную";
 			this.btnStart.UseVisualStyleBackColor = true;
@@ -106,9 +106,9 @@
 			// 
 			// btnTimer
 			// 
-			this.btnTimer.Location = new System.Drawing.Point(227, 41);
+			this.btnTimer.Location = new System.Drawing.Point(195, 74);
 			this.btnTimer.Name = "btnTimer";
-			this.btnTimer.Size = new System.Drawing.Size(207, 23);
+			this.btnTimer.Size = new System.Drawing.Size(177, 23);
 			this.btnTimer.TabIndex = 7;
 			this.btnTimer.Text = "Запустить таймер";
 			this.btnTimer.UseVisualStyleBackColor = true;
@@ -117,16 +117,16 @@
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(367, 455);
+			this.label2.Location = new System.Drawing.Point(406, 524);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(67, 13);
 			this.label2.TabIndex = 8;
-			this.label2.Text = "v2017.06.27";
+			this.label2.Text = "v2017.06.28";
 			// 
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(9, 455);
+			this.label3.Location = new System.Drawing.Point(12, 17);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(210, 13);
 			this.label3.TabIndex = 9;
@@ -138,9 +138,9 @@
 			this.cbSource.Items.AddRange(new object[] {
             "New",
             "Top"});
-			this.cbSource.Location = new System.Drawing.Point(227, 452);
+			this.cbSource.Location = new System.Drawing.Point(243, 14);
 			this.cbSource.Name = "cbSource";
-			this.cbSource.Size = new System.Drawing.Size(107, 21);
+			this.cbSource.Size = new System.Drawing.Size(129, 21);
 			this.cbSource.TabIndex = 10;
 			this.cbSource.Text = "New";
 			this.cbSource.SelectedIndexChanged += new System.EventHandler(this.cbSource_SelectedIndexChanged);
@@ -149,7 +149,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(446, 477);
+			this.ClientSize = new System.Drawing.Size(487, 546);
 			this.Controls.Add(this.cbSource);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);

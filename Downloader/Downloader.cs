@@ -16,25 +16,37 @@ namespace Downloader
 		
 		private async void btnStart_Click(object sender, EventArgs e)
 		{
-			tbConsole.Text = @"ВРУЧНУЮ: Начало загрузки" + Environment.NewLine + tbConsole.Text;
+			tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: ВРУЧНУЮ: Начало загрузки" + Environment.NewLine + tbConsole.Text;
 
 			btnStart.Enabled = false;
+			btnTimer.Enabled = false;
 			cbSource.Enabled = false;
 
 			_engine.Amount = Convert.ToInt32(numericUpDown1.Value);
 
-			var progress = new Progress<int>(val => progressBar1.Value = val);
-			var log = new Progress<string>(message => tbConsole.Text = message + Environment.NewLine + tbConsole.Text);
+			try
+			{
+				var progress = new Progress<int>(val => progressBar1.Value = val);
+				var log = new Progress<string>(message => tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: " + message + Environment.NewLine + tbConsole.Text);
 			
-			await _engine.Download(progress, log);
+				await _engine.Download(progress, log);
+			}
+			catch
+			{
+				tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: Ошибка загрузки" + Environment.NewLine + tbConsole.Text;
+				progressBar1.Value = 0;
+			}
+			
+			tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: ВРУЧНУЮ: Конец загрузки" + Environment.NewLine + tbConsole.Text;
 
 			btnStart.Enabled = true;
+			btnTimer.Enabled = true;
 			cbSource.Enabled = true;
 		}
 
 		private async void timerDownload_Tick(object sender, EventArgs e)
 		{
-			tbConsole.Text = @"ТАЙМЕР: Начало загрузки" + Environment.NewLine + tbConsole.Text;
+			tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: ТАЙМЕР: Начало загрузки" + Environment.NewLine + tbConsole.Text;
 
 			btnStart.Enabled = false;
 			cbSource.Enabled = false;
@@ -42,13 +54,24 @@ namespace Downloader
 
 			_engine.Amount = Convert.ToInt32(numericUpDown1.Value);
 
-			var progress = new Progress<int>(val => progressBar1.Value = val);
-			var log = new Progress<string>(message => tbConsole.Text = message + Environment.NewLine + tbConsole.Text);
+			try
+			{
+				var progress = new Progress<int>(val => progressBar1.Value = val);
+				var log = new Progress<string>(message => tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: " + message + Environment.NewLine + tbConsole.Text);
 
-			await _engine.Download(progress, log);
-
+				await _engine.Download(progress, log);
+			}
+			catch
+			{
+				tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: ТАЙМЕР: Ошибка загрузки. Следующая попытка через 1 час" + Environment.NewLine + tbConsole.Text;
+				progressBar1.Value = 0;
+			}
+			
 			btnStart.Enabled = true;
 			cbSource.Enabled = true;
+			
+			tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: ТАЙМЕР: Конец загрузки" + Environment.NewLine + tbConsole.Text;
+
 			timerDownload.Start();
 		}
 
@@ -57,11 +80,15 @@ namespace Downloader
 			if (!timerDownload.Enabled)
 			{
 				btnTimer.Text = @"Остановить таймер";
+				tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: ТАЙМЕР: До начала загрузки 1 час" + Environment.NewLine + tbConsole.Text;
+				btnStart.Enabled = false;
 				timerDownload.Start();
 			}
 			else
 			{
 				btnTimer.Text = @"Запустить таймер";
+				tbConsole.Text = $"[{DateTime.Now.ToShortTimeString()}]: ТАЙМЕР: Остановлен" + Environment.NewLine + tbConsole.Text;
+				btnStart.Enabled = true;
 				timerDownload.Stop();
 			}
 		}
